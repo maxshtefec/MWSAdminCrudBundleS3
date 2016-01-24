@@ -1,13 +1,13 @@
 {
-    "name": "mwsimple/admin-crud",
+    "name": "mwsimple/admin-cruds3",
     "description": "This bundle admin crud",
     "keywords": ["admin", "crud", "bootstrap"],
-    "homepage": "https://github.com/MWSimple/AdminCrudBundle",
+    "homepage": "https://github.com/mshtefec/MWSAdminCrudBundleS3",
     "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
         {
-            "name": "Gonzalo Alonso",
+            "name": "Gonzalo Alonso - Cabral Emmanuel - Shtefec Max - Miro Rodrigo",
             "email": "gonkpo@gmail.com"
         }
     ],
@@ -26,11 +26,11 @@
     "autoload": {
         "psr-0": {"MWSimple\\Bundle\\AdminCrudBundle": ""}
     },
-    "target-dir": "MWSimple/Bundle/AdminCrudBundle",
+    "target-dir": "MWSimple/Bundle/AdminCrudBundleS3",
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
-            "dev-version27": "3.0.x-dev"
+            "dev-version1": "4.0.x-dev"
         }
     }
 }
