@@ -1,0 +1,111 @@
+<?php
+
+namespace {{ namespace }}\Form{{ entity_namespace ? '\\' ~ entity_namespace : '' }};
+
+{% block use_statements %}
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+{% endblock use_statements %}
+
+/**
+{% block phpdoc_class_header %}
+ * {{ form_class }} form.
+ * @author Nombre Apellido <name@gmail.com>
+{% endblock phpdoc_class_header %}
+ */
+{% block class_definition %}
+class {{ form_class }} extends AbstractType
+{% endblock class_definition %}
+{
+{% block class_body %}
+    {% if fields|length > 0 %}
+/**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+        {%- for field in fields %}
+
+            {%- if field.type in ['datetime', 'datetimetz'] %}
+
+            ->add('{{ field.fieldName }}', 'bootstrapdatetime', array(
+                'required'   => true,
+                'label'      => '{{ field.fieldName |title}}',
+                'label_attr' => array(
+                    'class' => 'col-lg-2 col-md-2 col-sm-2',
+                ),
+                'widget_type' => 'both',
+            ))
+            {%- elseif field.type in ['date'] %}
+
+            ->add('{{ field.fieldName }}', 'bootstrapdatetime', array(
+                'required'   => true,
+                'label'      => '{{ field.fieldName |title}}',
+                'label_attr' => array(
+                    'class' => 'col-lg-2 col-md-2 col-sm-2',
+                ),
+                'widget_type' => 'date',
+            ))
+            {%- elseif field.type in ['time'] %}
+
+            ->add('{{ field.fieldName }}', 'bootstrapdatetime', array(
+                'required'   => true,
+                'label'      => '{{ field.fieldName|title }}',
+                'label_attr' => array(
+                    'class' => 'col-lg-2 col-md-2 col-sm-2',
+                ),
+                'widget_type' => 'time',
+            ))
+            {%- else %}
+
+            ->add('{{ field.fieldName }}')
+            {%- endif %}    
+        {%- endfor %}
+        {%- for fieldName, field in associations %}
+
+            ->add('{{ fieldName }}', 'select2', array(
+                'class' => '{{ field.targetEntity }}',
+                'url'   => '{{ entity_class }}_autocomplete_{{ fieldName }}',
+                'configs' => array(
+                    {%- if field.type in [1, 2, 3] %}
+
+                    'multiple' => false,//required true or false
+                    {%- else %}
+
+                    'multiple' => true,//required true or false
+                    {%- endif %}
+
+                    'width'    => 'off',
+                ),
+                'attr' => array(
+                    'class' => "col-lg-12 col-md-12 col-sm-12 col-xs-12",
+                )
+            ))
+        {%- endfor %}
+
+        ;
+    }
+    {% endif %}
+
+    /**
+     * @param OptionsResolverInterface $resolver
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => '{{ namespace }}\Entity{{ entity_namespace ? '\\' ~ entity_namespace : '' }}\{{ entity_class }}'
+        ));
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return '{{ form_type_name }}';
+    }
+{% endblock class_body %}
+}

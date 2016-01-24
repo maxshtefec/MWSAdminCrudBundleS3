@@ -1,0 +1,24 @@
+
+    /**
+{% block phpdoc_method_header %}
+     * Exporter {{ entity }}.
+{% endblock phpdoc_method_header %}
+     *
+{% block phpdoc_method_annotations %}
+{% if 'annotation' == format %}
+     * @Route("/exporter/{format}", name="{{ route_name_prefix }}_export")
+{% endif %}
+{% endblock phpdoc_method_annotations %}
+     */
+{% block method_definition %}
+    public function getExporter($format)
+{% endblock method_definition %}
+    {
+{% block method_body %}
+        $response = parent::exportCsvAction($format);
+{% endblock method_body %}
+
+{% block method_return %}
+        return $response;
+{% endblock method_return %}
+    }
